@@ -1,0 +1,8 @@
+query Customers($data: GetCustomerInput!) {
+  customers(data: $data) {
+    email
+    id
+    createdAt
+    updatedAt
+  }
+}

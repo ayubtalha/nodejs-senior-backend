@@ -18,6 +18,10 @@ type Customer {
 """
 scalar Timestamp
 
+type AuthOutput {
+  token: String!
+}
+
 type Query {
   customers(data: GetCustomerInput!): [Customer!]!
 }
@@ -34,4 +38,13 @@ input WhereCustomerInput {
   email: String
   createdAt: Timestamp
   updatedAt: Timestamp
+}
+
+type Mutation {
+  login(data: LoginInput!): AuthOutput!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
