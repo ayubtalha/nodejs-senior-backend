@@ -24,6 +24,7 @@ type AuthOutput {
 
 type Query {
   customers(data: GetCustomerInput!): [Customer!]!
+  currentLoggedUser: Customer!
 }
 
 input GetCustomerInput {

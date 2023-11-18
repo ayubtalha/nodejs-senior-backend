@@ -62,3 +62,35 @@ Run the Apollo URl and then inside use the SandBox URl
 
 - Apollo URL: https://studio.apollographql.com/sandbox/explorer
 - SandBox Url: http://localhost:8080/graphql
+
+## Example Queries
+
+Please check this folder for the example Apollo Studio Queries `src/exampleQueries`
+
+## Authorization Token
+
+To set the Bearer token at https://studio.apollographql.com/sandbox/explorer, you can follow these steps:
+
+1. Open the Explorer
+
+Navigate to the Apollo Studio Sandbox page: https://studio.apollographql.com/sandbox/explorer
+
+2. Locate the Headers tab
+
+At the bottom of the Explorer panel, you'll find a tab labeled "Headers". Click on this tab to open the Headers section.
+
+3. Add the Authorization header
+
+In the Headers section, click on the "New header" button. A new row will appear for adding a new header.
+
+4. Set the header key and value
+
+In the "Header key" field, enter the header key "Authorization". In the "Header value" field, enter the Bearer token you want to use for authentication. For example, if your Bearer token is "your-token-here", you would enter "Bearer your-token-here".
+
+5. Save the header
+
+Once you've entered the header key and value, click on the "Save" button to save the header configuration.
+
+The Bearer token will now be included in all GraphQL requests made through the Explorer, ensuring that your authentication credentials are passed along with each query.
+
+Notes: You can get the Auth Token from the 'token' mutation.
