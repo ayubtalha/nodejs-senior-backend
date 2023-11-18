@@ -1,4 +1,4 @@
-query Customers($data: GetCustomerInput!) {
+query Customers($data: GetCustomerData!) {
   customers(data: $data) {
     email
     id

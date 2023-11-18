@@ -1,0 +1,6 @@
+query GetCustomerData($data: ObtainCustomerViaIdOrEmail!) {
+  GetCustomerData(data: $data) {
+    email
+    id
+  }
+}

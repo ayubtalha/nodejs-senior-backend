@@ -24,26 +24,48 @@ type AuthOutput {
 }
 
 type Query {
-  customers(data: GetCustomerInput!): [Customer!]!
+  customers(data: GetCustomerData!): [Customer!]!
+  GetCustomerData(data: ObtainCustomerViaIdOrEmail!): Customer!
   currentLoggedUser: Customer!
 }
 
-input GetCustomerInput {
+input GetCustomerData {
   cursor: String
   skip: Int
   take: Int
-  where: WhereCustomerInput
+  where: WhereCustomerData
 }
 
-input WhereCustomerInput {
+input WhereCustomerData {
   id: String
   email: String
   createdAt: Timestamp
   updatedAt: Timestamp
 }
 
+input ObtainCustomerViaIdOrEmail {
+  id: String
+  email: String
+}
+
 type Mutation {
+  CreateCustomerData(customer: CreateCustomerData!): Customer!
+  UpdateCustomerData(customer: UpdateCustomerData!): Customer!
+  deleteCustomer(id: String!): Customer!
   login(data: LoginInput!): AuthOutput!
+}
+
+input CreateCustomerData {
+  email: String!
+  password: String!
+  role: String!
+}
+
+input UpdateCustomerData {
+  id: String!
+  email: String
+  password: String
+  role: String
 }
 
 input LoginInput {
