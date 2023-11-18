@@ -25,9 +25,13 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const payload = { sub: customer.id, email: customer.email };
+    const content = {
+      id: customer.id,
+      email: customer.email,
+      role: customer.role,
+    };
 
-    return { token: await this.jwtService.signAsync(payload) };
+    return { authToken: await this.jwtService.signAsync(content) };
   }
 
   async currentLoggedUser(id: string): Promise<Customer> {

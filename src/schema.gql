@@ -11,6 +11,7 @@ type Customer {
   """Date and time when the object was updated last time."""
   updatedAt: Timestamp!
   email: String!
+  role: String!
 }
 
 """
@@ -19,7 +20,7 @@ type Customer {
 scalar Timestamp
 
 type AuthOutput {
-  token: String!
+  authToken: String!
 }
 
 type Query {

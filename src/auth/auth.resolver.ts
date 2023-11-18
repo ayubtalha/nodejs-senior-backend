@@ -20,6 +20,6 @@ export class AuthResolver {
   @UseGuards(AuthGuard)
   @Query(() => Customer)
   async currentLoggedUser(@User() user: any) {
-    return this.authService.currentLoggedUser(user.sub);
+    return this.authService.currentLoggedUser(user.id);
   }
 }

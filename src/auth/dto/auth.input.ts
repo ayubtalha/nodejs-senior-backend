@@ -11,5 +11,5 @@ export class LoginInput {
 @ObjectType()
 export class AuthOutput {
   @Field(() => String, { nullable: false })
-  token: string;
+  authToken: string;
 }
