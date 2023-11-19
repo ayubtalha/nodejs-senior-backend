@@ -12,10 +12,21 @@ datasource db {
 }
 
 model Customer {
-  id        String   @id @unique @default(uuid())
-  email     String   @unique
-  password  String
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                               String                        @id @unique @default(uuid())
+  email                            String                        @unique
+  password                         String
+  role                             String
+  createdAt                        DateTime                      @default(now())
+  updatedAt                        DateTime                      @updatedAt
+  CustomerActivationCodesDatasData CustomerActivationCodesData[]
+}
+
+model CustomerActivationCodesData {
+  id                     String    @id @unique @default(uuid())
+  customer               Customer  @relation(fields: [customerId], references: [id])
+  customerId             String
+  customerActivationCode String
+  activationDate         DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 }

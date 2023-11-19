@@ -20,12 +20,25 @@ type Customer {
 scalar Timestamp
 
 type AuthOutput {
-  authToken: String!
+  token: String!
+}
+
+type ActivationCode {
+  id: ID!
+
+  """Date and time when object was created."""
+  createdAt: Timestamp!
+
+  """Date and time when the object was updated last time."""
+  updatedAt: Timestamp!
+  customer: Customer!
+  customerActivationCode: String!
+  activationDate: Timestamp
 }
 
 type Query {
   customers(data: GetCustomerData!): [Customer!]!
-  GetCustomerData(data: ObtainCustomerViaIdOrEmail!): Customer!
+  getCustomer(data: ObtainCustomerViaIdOrEmail!): Customer!
   currentLoggedUser: Customer!
 }
 
@@ -49,10 +62,12 @@ input ObtainCustomerViaIdOrEmail {
 }
 
 type Mutation {
-  CreateCustomerData(customer: CreateCustomerData!): Customer!
-  UpdateCustomerData(customer: UpdateCustomerData!): Customer!
+  createCustomer(customer: CreateCustomerData!): Customer!
+  updateCustomer(customer: UpdateCustomerData!): Customer!
   deleteCustomer(id: String!): Customer!
   login(data: LoginInput!): AuthOutput!
+  signUp(data: CreateCustomerData!): ActivationCode!
+  activate(data: ActivationData!): ActivationCode!
 }
 
 input CreateCustomerData {
@@ -69,6 +84,11 @@ input UpdateCustomerData {
 }
 
 input LoginInput {
-  email: String!
+  username: String!
   password: String!
+}
+
+input ActivationData {
+  customerId: String!
+  customerActivationCode: String!
 }

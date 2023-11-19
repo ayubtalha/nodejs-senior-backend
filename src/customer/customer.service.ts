@@ -10,6 +10,7 @@ import {
 @Injectable()
 export class CustomerService {
   constructor(private prisma: PrismaService) {}
+
   async findAll(params: GetCustomerData) {
     const { skip, take, cursor, where } = params;
 
@@ -21,8 +22,8 @@ export class CustomerService {
     });
   }
 
-  async create(newCustomer: CreateCustomerData) {
-    return this.prisma.customer.create({ data: newCustomer });
+  async create(newSignedCustomer: CreateCustomerData) {
+    return this.prisma.customer.create({ data: newSignedCustomer });
   }
 
   async getByIdOrEmail(params: ObtainCustomerViaIdOrEmail) {

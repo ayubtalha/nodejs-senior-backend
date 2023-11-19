@@ -3,16 +3,13 @@ import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { PrismaService } from 'src/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
-
-export const jwtAuthConstants = {
-  superSecrteKey: 'some-super-secret-key',
-};
+import { jwtSecret } from './constants';
 
 @Module({
   imports: [
     JwtModule.register({
       global: true,
-      secret: jwtAuthConstants.superSecrteKey,
+      secret: jwtSecret.superSecret,
       signOptions: { expiresIn: '5h' },
     }),
   ],

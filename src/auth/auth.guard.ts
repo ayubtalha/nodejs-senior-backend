@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { jwtSecret } from './constants';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
@@ -13,18 +14,20 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = GqlExecutionContext.create(context).getContext().req;
-    const [type, authToken] = request.get('authorization')?.split(' ') ?? [];
+    const [type, token] = request.get('authorization')?.split(' ') ?? [];
 
-    if (type !== 'Bearer' && !authToken) {
+    if (type !== 'Bearer' || !token) {
       throw new UnauthorizedException();
     }
-
     try {
-      const payload = await this.jwtService.verifyAsync(authToken);
-      if (!payload.id && !payload.email) throw new UnauthorizedException();
-      return true;
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtSecret.superSecret,
+      });
+
+      request.user = payload;
     } catch {
       throw new UnauthorizedException();
     }
+    return true;
   }
 }

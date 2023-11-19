@@ -8,9 +8,9 @@ import {
   UpdateCustomerData,
 } from './dto/customer.input';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../auth/auth.guard';
-import { RolesGuard } from 'src/auth/authRoles.guard';
-import { Roles } from 'src/lib/decorator/authRole.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/lib/decorators/role.decorator';
 
 @Resolver(() => Customer)
 export class CustomerResolver {
@@ -24,22 +24,21 @@ export class CustomerResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => Customer)
-  async GetCustomerData(
-    @Args('data') { email, id }: ObtainCustomerViaIdOrEmail,
-  ) {
+  async getCustomer(@Args('data') { email, id }: ObtainCustomerViaIdOrEmail) {
     return this.customerService.getByIdOrEmail({ email, id });
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
   @Mutation((returns) => Customer)
-  async CreateCustomerData(@Args('customer') customer: CreateCustomerData) {
+  async createCustomer(@Args('customer') customer: CreateCustomerData) {
     return this.customerService.create(customer);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Mutation((returns) => Customer)
-  async UpdateCustomerData(@Args('customer') customer: UpdateCustomerData) {
+  async updateCustomer(@Args('customer') customer: UpdateCustomerData) {
     return this.customerService.update(customer);
   }
 

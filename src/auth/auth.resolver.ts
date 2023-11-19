@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { Customer } from 'src/lib/entities/customer.entity';
-import { User } from 'src/lib/decorator/user.decorator';
+import { User } from 'src/lib/decorators/user.decorator';
 
 @Resolver()
 export class AuthResolver {
@@ -12,14 +12,17 @@ export class AuthResolver {
 
   @Mutation((returns) => AuthOutput)
   async login(
-    @Args('data') { email, password }: LoginInput,
+    @Args('data') { username, password }: LoginInput,
   ): Promise<AuthOutput> {
-    return this.authService.findByCustomerEmailAndPassword({ email, password });
+    return this.authService.findByCustomerEmailAndPassword({
+      username,
+      password,
+    });
   }
 
   @UseGuards(AuthGuard)
   @Query(() => Customer)
   async currentLoggedUser(@User() user: any) {
-    return this.authService.currentLoggedUser(user.id);
+    return this.authService.currentLoggedUser(user.customerId);
   }
 }

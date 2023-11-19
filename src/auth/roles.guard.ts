@@ -20,9 +20,14 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = GqlExecutionContext.create(context).getContext().req;
-    const user = request.body.variables.customer.role;
 
-    if (!roles.includes(user)) throw new UnauthorizedException();
+    const user = request.user;
+    if (!this.matchRoles(roles, user.role)) throw new UnauthorizedException();
     return true;
+  }
+  // Notes: Follow here https://github.com/nestjsx/nest-access-control
+  // roles would be matched with the ADMIN
+  private matchRoles(roles: string[], userRole: string) {
+    return roles.some((role) => role === userRole);
   }
 }

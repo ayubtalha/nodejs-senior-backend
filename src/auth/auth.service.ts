@@ -12,11 +12,11 @@ export class AuthService {
   ) {}
 
   async findByCustomerEmailAndPassword(params: LoginInput) {
-    const { email, password } = params;
+    const { username, password } = params;
 
     const customer = await this.prisma.customer.findFirst({
       where: {
-        email,
+        email: username,
         password,
       },
     });
@@ -25,19 +25,16 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const content = {
-      id: customer.id,
-      email: customer.email,
+    const payload = {
+      customerId: customer.id,
+      username: customer.email,
       role: customer.role,
     };
 
-    return { authToken: await this.jwtService.signAsync(content) };
+    return { token: await this.jwtService.signAsync(payload) };
   }
 
   async currentLoggedUser(id: string): Promise<Customer> {
-    const currentLoggedUser = await this.prisma.customer.findUnique({
-      where: { id },
-    });
-    return currentLoggedUser;
+    return await this.prisma.customer.findUnique({ where: { id } });
   }
 }
