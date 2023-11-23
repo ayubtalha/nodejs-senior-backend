@@ -1,0 +1,7 @@
+{
+  "customer": {
+    "email": "test@test.com",
+    "password": "test",
+    "role": "ADMIN"
+  }
+}

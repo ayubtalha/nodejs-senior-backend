@@ -1,0 +1,15 @@
+mutation Activate($data: ActivationData!) {
+  activate(data: $data) {
+    id
+    createdAt
+    updatedAt
+    customer {
+      id
+      createdAt
+      updatedAt
+      email
+      role
+    }
+    customerActivationCode
+  }
+}

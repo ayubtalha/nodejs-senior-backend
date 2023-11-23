@@ -1,0 +1,9 @@
+// choose the correct id from the getCustomers
+{
+  "customer": {
+    "email": "testing@testing.com",
+    "id": "41576274-915d-417b-8f43-029e766b1f90",
+    "password": "testing",
+    "role": "ADMIN"
+  }
+}

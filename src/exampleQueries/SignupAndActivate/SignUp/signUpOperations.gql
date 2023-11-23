@@ -1,0 +1,15 @@
+mutation SignUp($data: CreateCustomerData!) {
+  signUp(data: $data) {
+    id
+    createdAt
+    updatedAt
+    customer {
+      id
+      createdAt
+      updatedAt
+      email
+      role
+    }
+    customerActivationCode
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "loginData": {
-    "password": "randow-password",
-    "email": "user@gmail.com"
+  "data": {
+    "username": "user@gmail.com",
+    "password": "randow-password"
   }
 }

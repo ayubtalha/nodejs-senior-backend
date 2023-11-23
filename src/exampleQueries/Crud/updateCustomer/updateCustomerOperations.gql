@@ -1,0 +1,9 @@
+mutation UpdateCustomer($customer: UpdateCustomerData!) {
+  updateCustomer(customer: $customer) {
+    createdAt
+    email
+    id
+    role
+    updatedAt
+  }
+}
