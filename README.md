@@ -94,3 +94,15 @@ Once you've entered the header key and value, click on the "Save" button to save
 The Bearer token will now be included in all GraphQL requests made through the Explorer, ensuring that your authentication credentials are passed along with each query.
 
 Notes: You can get the Auth Token from the 'token' mutation.
+
+## Improvements / Next Steps
+
+1. Add the statusCode and message for viewing at the Apollo Studio
+2. Refactor the signup and activate code for better readability and return classes
+3. Add Swagger documentation
+
+## Author
+
+@Talha Ayub - Software Engineer
+
+Contact Details: mtalhaayub752@gmail.com
