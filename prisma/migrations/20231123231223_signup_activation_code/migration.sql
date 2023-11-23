@@ -2,7 +2,7 @@
 CREATE TABLE "CustomerActivationCodesData" (
     "id" TEXT NOT NULL,
     "customerId" TEXT NOT NULL,
-    "CustomerActivationCodesData" TEXT NOT NULL,
+    "customerActivationCode" TEXT NOT NULL,
     "activationDate" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

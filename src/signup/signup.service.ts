@@ -13,38 +13,84 @@ export class SignupService {
   constructor(private prisma: PrismaService) {}
 
   async signUp(newSignedCustomer: CreateCustomerData) {
-    const customer: Customer = await this.prisma.customer.create({
-      data: newSignedCustomer,
-    });
+    try {
+      const customer: Customer = await this.prisma.customer.create({
+        data: newSignedCustomer,
+      });
 
-    if (!customer) throw new ServiceUnavailableException();
+      if (!customer) {
+        console.error('Customer creation failed:', newSignedCustomer);
+        throw new ServiceUnavailableException();
+      }
 
-    return this.prisma.customerActivationCodesData.create({
-      data: {
-        customerActivationCode: (Math.random() * 1000000).toFixed(0),
-        customerId: customer.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
+      console.log('SignedUp customer successfully:', customer);
+
+      const customerActivationCodesData =
+        await this.prisma.customerActivationCodesData.create({
+          data: {
+            customerActivationCode: Math.floor(
+              Math.random() * 1000000,
+            ).toString(),
+            customerId: customer.id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+
+      return {
+        id: customerActivationCodesData.id, //signup id
+        customerId: customerActivationCodesData.customerId,
+        customerActivationCode:
+          customerActivationCodesData.customerActivationCode,
+        createdAt: customerActivationCodesData.createdAt,
+        updatedAt: customerActivationCodesData.updatedAt,
+        customer,
+      };
+    } catch (error) {
+      console.error('Error in signUp:', error);
+      throw new ServiceUnavailableException();
+    }
   }
 
   async activate(activation: ActivationData) {
-    const customerActivationCode =
-      await this.prisma.customerActivationCodesData.findFirst({
-        where: {
-          customerActivationCode: activation.customerActivationCode,
-          customerId: activation.customerId,
-        },
+    try {
+      const customer = await this.prisma.customer.findFirst({
+        where: { id: activation.customerId },
       });
 
-    if (!customerActivationCode || !!customerActivationCode.activationDate) {
-      throw new BadRequestException();
-    }
+      const customerActivationCode =
+        await this.prisma.customerActivationCodesData.findFirst({
+          where: {
+            customerActivationCode: activation.customerActivationCode,
+            customerId: activation.customerId,
+          },
+        });
 
-    return this.prisma.customerActivationCodesData.update({
-      data: { activationDate: new Date() },
-      where: { id: customerActivationCode.id },
-    });
+      if (!customerActivationCode) {
+        throw new BadRequestException();
+      }
+
+      const customerActivationCodesData =
+        await this.prisma.customerActivationCodesData.update({
+          where: { id: customerActivationCode.id },
+          data: { activationDate: new Date() },
+        });
+
+      console.log('Customer Activated Successfully:', customer);
+
+      return {
+        id: customerActivationCodesData.id,
+        customerId: customerActivationCodesData.customerId,
+        customerActivationCode:
+          customerActivationCodesData.customerActivationCode,
+        createdAt: customerActivationCodesData.createdAt,
+        updatedAt: customerActivationCodesData.updatedAt,
+        activation: customerActivationCodesData.activationDate,
+        customer,
+      };
+    } catch (error) {
+      console.error('Prisma error:', error);
+      throw new BadRequestException('Invalid request to Prisma');
+    }
   }
 }
